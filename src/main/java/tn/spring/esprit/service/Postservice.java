@@ -127,6 +127,6 @@ public class Postservice implements PostsInterface {
 
 			user.setRecompense(Recompense.medaille_or);
 		}else {user.setRecompense(null);}
-return ("la recompense "+ user.getRecompense()+" a eté affecté a utlisateur " + user_id +" avec succes ");
+return ("la recompense "+ user.getRecompense()+" a eté affecté a utlisateur " + user_id +" avec succes. ");
 	}
 }
