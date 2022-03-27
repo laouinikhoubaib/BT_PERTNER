@@ -21,6 +21,7 @@ import tn.esprit.spring.dto.user.JwtSignUp;
 import tn.esprit.spring.dto.user.LoginResponse;
 import tn.esprit.spring.dto.user.Mail;
 import tn.esprit.spring.dto.user.NewPassword;
+import tn.esprit.spring.dto.user.TokenDto;
 import tn.esprit.spring.dto.user.UserActive;
 import tn.esprit.spring.entities.Code;
 import tn.esprit.spring.entities.ConfirmationToken;
@@ -42,6 +43,17 @@ import tn.esprit.spring.service.email.EmailService;
 import tn.esprit.spring.service.user.UserServiceAuth;
 import tn.esprit.spring.service.user.UserSevice;
 import tn.esprit.spring.util.user.UserCode;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.api.impl.FacebookTemplate;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 
 
 
@@ -85,6 +97,9 @@ public class AuthController {
 
   @Autowired
   private EmailService emailService;
+  
+  @Value("google.id")
+  private String idUser;
   
 
 
@@ -252,20 +267,20 @@ public class AuthController {
       }
       return accountResponse;
   }/*
-  @PostMapping("/google")
+  @PostMapping("/social/google")
   public LoginResponse loginWithGoogle(@RequestBody TokenDto tokenDto) throws IOException {
       NetHttpTransport transport = new NetHttpTransport();
       JacksonFactory factory = JacksonFactory.getDefaultInstance();
       GoogleIdTokenVerifier.Builder ver =
               new GoogleIdTokenVerifier.Builder(transport,factory)
-                      .setAudience(Collections.singleton(idClient));
+                      .setAudience(Collections.singleton(idUser));
       GoogleIdToken googleIdToken = GoogleIdToken.parse(ver.getJsonFactory(),tokenDto.getToken());
       GoogleIdToken.Payload payload = googleIdToken.getPayload();
       return login(payload.getEmail());
   }
 
-  //http://localhost:8080/social/facebook
-  @PostMapping("/facebook")
+ 
+  @PostMapping("/social/facebook")
   public LoginResponse loginWithFacebook(@RequestBody TokenDto tokenDto){
       Facebook facebook = new FacebookTemplate(tokenDto.getToken());
       String [] data = {"email","name","picture"};
@@ -281,8 +296,8 @@ public class AuthController {
           user.setEmail(email);
           user.setPassword(encoder.encode("kasdjhfkadhsY776ggTyUU65khaskdjfhYuHAwjñlji"));
           user.setActive(1);
-          List<Authorities> authorities = authoritiesService.getAuthorities();
-          user.getAuthorities().add(authorities.get(0));
+          List<Role> authorities = (List<Role>) user.getRoles();
+          user.getRoles().add(authorities.get(0));
           userService.addUser(user);
       }
       JwtLogin jwtLogin = new JwtLogin();
