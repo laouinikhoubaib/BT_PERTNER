@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface PostsReactionInterface {
 
-    public void addPostReaction(PostReaction preac ,int id);
+    public void addPostReaction(PostReaction preac ,int post_id,int id);
 
     void deletePostReaction(int id ,int post_id);
 
@@ -19,5 +19,9 @@ public interface PostsReactionInterface {
     public void disaffecterPostReaction(int post_id,int postReact_id);
 
     List<PostReaction> retrieveAllPostReaction();
+
+    public void affecterUserreaction(int postReact_id,int user_id);
+
+    public void affecterUserPostReaction(int postReact_id,int user_id);
 
 }

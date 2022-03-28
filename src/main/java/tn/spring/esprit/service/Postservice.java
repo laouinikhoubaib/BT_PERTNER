@@ -119,11 +119,11 @@ public class Postservice implements PostsInterface {
 	@Override
 	public String affecterrecompense(int user_id){
 		User user = userRepository.findById(user_id).orElse(null);
-		if (user.getPosts().size()>1 && user.getPosts().size()<4 ){
+		if (user.getPosts().size()>1 && user.getPosts().size()<4 || user.getPostReactions().size()>1 && user.getPostReactions().size()<4 ){
 			user.setRecompense(Recompense.medaille_Bronze);
-		}else if (user.getPosts().size()>4 && user.getPosts().size()<6){
+		}else if (user.getPosts().size()>4 && user.getPosts().size()<6  || user.getPostReactions().size()>4 && user.getPostReactions().size()<6  ){
 			user.setRecompense(Recompense.medaille_argent);
-		}else  if (user.getPosts().size()>6){
+		}else  if (user.getPosts().size()>6 || user.getPostReactions().size()>6 ){
 
 			user.setRecompense(Recompense.medaille_or);
 		}else {user.setRecompense(null);}

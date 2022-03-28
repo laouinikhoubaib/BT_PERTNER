@@ -20,6 +20,10 @@ public class PostReaction implements Serializable {
     @ManyToOne
     private Posts post;
 
+    @ManyToOne()
+    @JsonIgnore
+    private User user;
+
     @Enumerated(EnumType.STRING)
     private TypeReaction typereaction;
 
@@ -41,6 +45,14 @@ public class PostReaction implements Serializable {
 
     public TypeReaction getTypereaction() {
         return typereaction;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setTypereaction(TypeReaction typereaction) {

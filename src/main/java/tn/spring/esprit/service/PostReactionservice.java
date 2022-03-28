@@ -3,14 +3,12 @@ package tn.spring.esprit.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.spring.esprit.ServiceInterface.PostsInterface;
-import tn.spring.esprit.entities.CommentReaction;
-import tn.spring.esprit.entities.Comments;
-import tn.spring.esprit.entities.PostReaction;
-import tn.spring.esprit.entities.Posts;
+import tn.spring.esprit.entities.*;
 import tn.spring.esprit.repository.CommentRepository;
 import tn.spring.esprit.repository.PostReactionReposirory;
 import tn.spring.esprit.ServiceInterface.PostsReactionInterface;
 import tn.spring.esprit.repository.PostsRepository;
+import tn.spring.esprit.repository.UserRepository;
 
 import java.util.HashSet;
 import java.util.List;
@@ -24,13 +22,18 @@ public class PostReactionservice implements PostsReactionInterface {
     @Autowired
     private PostsRepository postr;
 
+    @Autowired
+    UserRepository userRepository;
+
 
     @Override
-    public void addPostReaction(PostReaction preac,int post_id)
+    public void addPostReaction(PostReaction preac,int post_id,int user_id)
     {
 
         postReactionReposirory.save(preac);
         affecterPostReaction(post_id, preac.getId());
+        affecterUserreaction(preac.getId(),user_id);
+        affecterUserPostReaction(preac.getId(),user_id);
     }
 
     @Override
@@ -88,6 +91,29 @@ public void disaffecterPostReaction(int post_id,int postReact_id) {
     postReactionReposirory.save(postReaction);
     postr.save(post);
 }
+
+    @Override
+    public void affecterUserreaction(int postReact_id,int user_id) {
+        User user = userRepository.findById(user_id).orElse(null);
+        PostReaction postReaction = postReactionReposirory.findById(postReact_id).orElse(null);
+
+        if (user.getPostReactions()== null) {
+            Set<PostReaction> postReactions = new HashSet<>();
+            postReactions.add(postReaction);
+            user.setPostReactions(postReactions);
+            userRepository.save(user);
+        } else
+            user.getPostReactions().add(postReaction);
+    }
+    @Override
+    public void affecterUserPostReaction(int postReact_id,int user_id) {
+        User user = userRepository.findById(user_id).orElse(null);
+        PostReaction postReaction = postReactionReposirory.findById(postReact_id).orElse(null);
+        if (postReaction != null) {
+            postReaction.setUser(user);
+            postReactionReposirory.save(postReaction);
+        }else System.out.println("postReaction n'existe pas");
+    }
 
 
 }

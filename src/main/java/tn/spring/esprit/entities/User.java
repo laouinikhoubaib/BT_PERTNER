@@ -113,11 +113,23 @@ public class User {
 	@JsonIgnore
 	private Set<Invitation>invitation;
 
+	@OneToMany(cascade = CascadeType.ALL,mappedBy="user")
+	@JsonIgnore
+	private Set<PostReaction>postReactions;
+
 	public Recompense getRecompense() {
 		return recompense;
 	}
 
 	public void setRecompense(Recompense recompense) {
 		this.recompense = recompense;
+	}
+
+	public Set<PostReaction> getPostReactions() {
+		return postReactions;
+	}
+
+	public void setPostReactions(Set<PostReaction> postReactions) {
+		this.postReactions = postReactions;
 	}
 }
