@@ -18,7 +18,7 @@ public class PostReactionController {
     PostsReactionInterface postreactionservice;
 
     @PostMapping("/ajouter-postReaction/{post_id}/{user_id}")
-    public void addPostReaction(@RequestBody PostReaction preac ,@PathVariable("post_id") int post_id,@PathVariable("user_id") int user_id){postreactionservice.addPostReaction(preac,post_id,user_id);};
+    public String addPostReaction(@RequestBody PostReaction preac ,@PathVariable("post_id") int post_id,@PathVariable("user_id") int user_id){return postreactionservice.addPostReaction(preac,post_id,user_id);};
 
     @DeleteMapping("/remove-postReaction/{reaction_id}/{post_id}")
     public void deletePostReaction(@PathVariable("reaction_id") int id,@PathVariable("post_id")int post_id ){postreactionservice.deletePostReaction(id , post_id);};

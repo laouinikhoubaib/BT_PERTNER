@@ -4,11 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.spring.esprit.ServiceInterface.PostsInterface;
 import tn.spring.esprit.entities.*;
-import tn.spring.esprit.repository.CommentRepository;
-import tn.spring.esprit.repository.PostReactionReposirory;
+import tn.spring.esprit.repository.*;
 import tn.spring.esprit.ServiceInterface.PostsReactionInterface;
-import tn.spring.esprit.repository.PostsRepository;
-import tn.spring.esprit.repository.UserRepository;
 
 import java.util.HashSet;
 import java.util.List;
@@ -24,16 +21,27 @@ public class PostReactionservice implements PostsReactionInterface {
 
     @Autowired
     UserRepository userRepository;
-
+    @Autowired
+    NotificationService notificationService;
+    @Autowired
+    NotificationRepository notificationRepository;
 
     @Override
-    public void addPostReaction(PostReaction preac,int post_id,int user_id)
+    public String addPostReaction(PostReaction preac,int post_id,int user_id)
     {
 
         postReactionReposirory.save(preac);
         affecterPostReaction(post_id, preac.getId());
         affecterUserreaction(preac.getId(),user_id);
         affecterUserPostReaction(preac.getId(),user_id);
+
+        Notification notif = new Notification();
+        notificationRepository.save(notif);
+        String message1 = notificationService.affecterNotficationUser ( post_id,user_id,notif.getId() );
+        String messageGlobale = message1 + "un nouveau postReaction sur votre post d'id :" + post_id;
+        notif.setObjetNotif(messageGlobale);
+        notificationRepository.save(notif);
+        return (messageGlobale);
     }
 
     @Override
@@ -102,8 +110,9 @@ public void disaffecterPostReaction(int post_id,int postReact_id) {
             postReactions.add(postReaction);
             user.setPostReactions(postReactions);
             userRepository.save(user);
-        } else
+        } else {
             user.getPostReactions().add(postReaction);
+        userRepository.save(user);}
     }
     @Override
     public void affecterUserPostReaction(int postReact_id,int user_id) {

@@ -17,8 +17,9 @@ public class CommentController {
     CommentService coms;
 
     @PostMapping("/ajouter-comment/{post_id}/{user_id}")
-    public void addComment(@RequestBody Comments com ,@PathVariable ("post_id") int post_id,@PathVariable("user_id") int user_id ){
-        coms.addComment(com,post_id,user_id);
+    public String addComment(@RequestBody Comments com ,@PathVariable ("post_id") int post_id,@PathVariable("user_id") int user_id ){
+        return coms.addComment(com,post_id,user_id);
+
     }
 
 

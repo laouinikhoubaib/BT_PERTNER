@@ -18,6 +18,8 @@ public interface NotificationInterface  {
 
     void delete(Integer id);
 
+    String affecterNotficationUser (int post_id,int user_id,int notification_id );
+
 
 
 }

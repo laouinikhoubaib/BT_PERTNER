@@ -15,8 +15,20 @@ public class CommentReaction {
     @ManyToOne
     private Comments comment;
 
+    @ManyToOne()
+    @JsonIgnore
+    private User user;
+
     @Enumerated(EnumType.STRING)
     private TypeReaction typereaction;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Comments getComment() {
         return comment;

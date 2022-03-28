@@ -3,12 +3,8 @@ package tn.spring.esprit.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.spring.esprit.ServiceInterface.CommentReactionInterface;
-import tn.spring.esprit.entities.CommentReaction;
-import tn.spring.esprit.entities.Comments;
-import tn.spring.esprit.entities.PostReaction;
-import tn.spring.esprit.repository.CommentReactionRepository;
-import tn.spring.esprit.repository.CommentRepository;
-import tn.spring.esprit.repository.PostsRepository;
+import tn.spring.esprit.entities.*;
+import tn.spring.esprit.repository.*;
 
 import java.util.HashSet;
 import java.util.List;
@@ -22,11 +18,25 @@ public class CommentReactionservice implements CommentReactionInterface {
 
     @Autowired
     private CommentRepository comr;
+    @Autowired
+    NotificationService notificationService;
+    @Autowired
+    NotificationRepository notificationRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @Override
-    public void addCommentReaction(CommentReaction preac,int comment_id) {
+    public String addCommentReaction(CommentReaction preac,int comment_id,int user_id) {
         commentReacRep.save(preac);
-        affecterCommentReaction(comment_id, preac.getId());
+        affecterCommentReaction(comment_id, preac.getId(),user_id);
+
+        Notification notif = new Notification();
+        notificationRepository.save(notif);
+        String message1 = notificationService.affecterNotficationUser ( comment_id,user_id,notif.getId() );
+        String messageGlobale = message1 + "un nouveau CommentReaction sur votre post d'id :" + comment_id;
+        notif.setObjetNotif(messageGlobale);
+        notificationRepository.save(notif);
+        return (messageGlobale);
     }
 
 
@@ -50,9 +60,19 @@ public class CommentReactionservice implements CommentReactionInterface {
 
     }
     @Override
-    public void affecterCommentReaction(int commentId,int commentReact_id){
+    public void affecterCommentReaction(int commentId,int commentReact_id,int user_id){
         CommentReaction commentReaction=commentReacRep.findById(commentReact_id).get();
         Comments comment=comr.findById(commentId).orElse(null);
+        User user = userRepository.findById(user_id).orElse(null);
+        if (user.getCommentReactions()== null) {
+            Set<CommentReaction> commentReactions = new HashSet<>();
+            commentReactions.add(commentReaction);
+            user.setCommentReactions(commentReactions);
+            userRepository.save(user);
+        } else{
+            user.getCommentReactions().add(commentReaction);
+            userRepository.save(user);
+        }
 
         if (comment.getListCommentReactions()== null){
             Set<CommentReaction> listCommentReactions=new HashSet<CommentReaction>();
@@ -83,5 +103,6 @@ public class CommentReactionservice implements CommentReactionInterface {
             comr.save(comment);
         }
         commentReaction.setComments(comment);
+        commentReacRep.save(commentReaction);
     }
 }

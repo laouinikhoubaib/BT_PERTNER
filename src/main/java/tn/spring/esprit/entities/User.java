@@ -117,6 +117,30 @@ public class User {
 	@JsonIgnore
 	private Set<PostReaction>postReactions;
 
+	@OneToMany(cascade = CascadeType.ALL,mappedBy="user")
+	@JsonIgnore
+	private Set<CommentReaction>commentReactions;
+
+	@OneToMany(cascade = CascadeType.ALL,mappedBy="user")
+	@JsonIgnore
+	private Set<Notification>notifications;
+
+	public Set<Notification> getNotifications() {
+		return notifications;
+	}
+
+	public Set<CommentReaction> getCommentReactions() {
+		return commentReactions;
+	}
+
+	public void setCommentReactions(Set<CommentReaction> commentReactions) {
+		this.commentReactions = commentReactions;
+	}
+
+	public void setNotifications(Set<Notification> notifications) {
+		this.notifications = notifications;
+	}
+
 	public Recompense getRecompense() {
 		return recompense;
 	}

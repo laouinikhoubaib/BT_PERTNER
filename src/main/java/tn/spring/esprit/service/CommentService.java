@@ -3,11 +3,9 @@ package tn.spring.esprit.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.spring.esprit.ServiceInterface.CommentInterface;
-import tn.spring.esprit.entities.CommentReaction;
-import tn.spring.esprit.entities.Comments;
-import tn.spring.esprit.entities.Posts;
-import tn.spring.esprit.entities.User;
+import tn.spring.esprit.entities.*;
 import tn.spring.esprit.repository.CommentRepository;
+import tn.spring.esprit.repository.NotificationRepository;
 import tn.spring.esprit.repository.PostsRepository;
 import tn.spring.esprit.repository.UserRepository;
 
@@ -23,13 +21,26 @@ public class CommentService implements CommentInterface {
     PostsRepository postr;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    NotificationRepository notificationRepository;
+    @Autowired
+    NotificationService notificationService;
+
 
     @Override
-    public void addComment(Comments com, int post_id,int user_id){
+    public String addComment(Comments com, int post_id,int user_id){
 
         comr.save(com);
         affecterCommentpost(com.getComment_id(), post_id);
         affecterUserComments(com.getComment_id(),user_id);
+
+        Notification notif = new Notification();
+        notificationRepository.save(notif);
+        String message1 = notificationService.affecterNotficationUser ( post_id,user_id,notif.getId() );
+        String messageGlobale = message1 + "un nouveau comment sur votre post d'id :" + post_id;
+        notif.setObjetNotif(messageGlobale);
+        notificationRepository.save(notif);
+        return (messageGlobale);
     }
 
 

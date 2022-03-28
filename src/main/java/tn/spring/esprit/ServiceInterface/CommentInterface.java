@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CommentInterface {
 
-    public void addComment(Comments com, int post_id,int user_id);
+    public String addComment(Comments com, int post_id,int user_id);
 
     void deleteComment(int id );
 

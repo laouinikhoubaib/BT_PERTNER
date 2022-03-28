@@ -15,9 +15,9 @@ public class CommentReactionController {
     @Autowired
     CommentReactionInterface commentreactionservice;
 
-    @PostMapping("/ajouter-commentReaction/{comment_id}")
-    public void addCommentReaction(@RequestBody CommentReaction preac , @PathVariable("comment_id") int id)
-    {commentreactionservice.addCommentReaction(preac, id);}
+    @PostMapping("/ajouter-commentReaction/{comment_id}/{user_id}")
+    public String addCommentReaction(@RequestBody CommentReaction preac , @PathVariable("comment_id") int id,@PathVariable("user_id") int user_id)
+    {return commentreactionservice.addCommentReaction(preac, id,user_id);}
 
 
     @DeleteMapping("/remove-commentReaction/{reaction_id}/{comment_id}")

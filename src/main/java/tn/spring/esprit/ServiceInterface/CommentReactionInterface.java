@@ -9,7 +9,7 @@ import java.util.List;
 public interface CommentReactionInterface {
 
 
-    public void addCommentReaction(CommentReaction preac ,int id);
+    public String addCommentReaction(CommentReaction preac ,int id,int user_id);
 
     public void deleteCommentReaction(int id ,int comment_id);
 
@@ -17,7 +17,7 @@ public interface CommentReactionInterface {
 
     public void updateCommentReaction(CommentReaction preac, int id);
 
-    public void affecterCommentReaction(int comment_id,int commentReact_id);
+    public void affecterCommentReaction(int comment_id,int commentReact_id,int user_id);
 
     public void disaffecterCommentReaction(int commentId,int commentReact_id);
 

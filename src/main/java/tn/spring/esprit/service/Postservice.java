@@ -104,6 +104,7 @@ public class Postservice implements PostsInterface {
 			userRepository.save(user);
 		} else
 			user.getPosts().add(post);
+        userRepository.save(user);
 	}
 	
 
