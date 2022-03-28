@@ -1,0 +1,5 @@
+InvitationStatus,InvitationType,SendingDate,invitationBody,invitationTitle,email
+Accepted,Account_invitation,2022-03-09 00:19,Invitation pour creer un compte dans notre application,welcome in ore platforme,nakbi.mohamed@esprit.tn
+Refused,Account_invitation,2022-03-09 00:19,Invitation pour creer un compte dans notre application,welcome in ore platforme,yassine.nakbi@esprit.tn
+In_progress,Account_invitation,2022-03-09 00:19,Invitation pour creer un compte dans notre application,welcome in ore platforme,yassine.nakbi@esprit.tn
+In_progress,Account_invitation,2022-03-09 00:19,Invitation pour creer un compte dans notre application,welcome in ore platforme,yassine.nakbi@esprit.tn

@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: LENOVO
+Build-Jdk: 16.0.2
+Implementation-Title: yassineProject
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.PiDev
+Implementation-URL: https://spring.io/projects/spring-boot/yassineProjec
+ t
+Created-By: Maven Integration for Eclipse
+
