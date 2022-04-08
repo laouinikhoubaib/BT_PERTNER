@@ -65,9 +65,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth/social/**").permitAll()
                 .antMatchers("/api/csv/upload").permitAll()
                 .antMatchers("/api/file/**").permitAll()
-                .antMatchers("/qrcode/**").permitAll()
-                
-                
+                .antMatchers("/qrcode/**").permitAll()              
                 .anyRequest().authenticated();
     }
     @Bean

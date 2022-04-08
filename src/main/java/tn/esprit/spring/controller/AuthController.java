@@ -21,7 +21,6 @@ import tn.esprit.spring.dto.user.JwtSignUp;
 import tn.esprit.spring.dto.user.LoginResponse;
 import tn.esprit.spring.dto.user.Mail;
 import tn.esprit.spring.dto.user.NewPassword;
-import tn.esprit.spring.dto.user.TokenDto;
 import tn.esprit.spring.dto.user.UserActive;
 import tn.esprit.spring.entities.Code;
 import tn.esprit.spring.entities.ConfirmationToken;
@@ -43,6 +42,7 @@ import tn.esprit.spring.service.email.EmailService;
 import tn.esprit.spring.service.user.UserServiceAuth;
 import tn.esprit.spring.service.user.UserSevice;
 import tn.esprit.spring.util.user.UserCode;
+
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.social.facebook.api.Facebook;
@@ -266,7 +266,9 @@ public class AuthController {
           accountResponse.setResult(0);
       }
       return accountResponse;
-  }/*
+  }
+  
+  /*
   @PostMapping("/social/google")
   public LoginResponse loginWithGoogle(@RequestBody TokenDto tokenDto) throws IOException {
       NetHttpTransport transport = new NetHttpTransport();
